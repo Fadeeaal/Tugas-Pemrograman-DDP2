@@ -9,7 +9,40 @@ public class NotaGenerator {
      * Method main, program utama kalian berjalan disini.
      */
     public static void main(String[] args) {
-        // TODO: Implement interface menu utama
+        boolean runningProgram = false;
+        int kodePelanggan = 0;
+        
+        while (!runningProgram){
+            printMenu();
+            System.out.print("Pilihan : ");
+            String pilihan = input.nextLine();
+            System.out.println("================================");
+            switch (pilihan){
+                case "1":
+                //Generate ID
+                System.out.println("Masukkan nama Anda: ");
+                String namaPelanggan = input.nextLine();
+                
+                System.out.println("Masukkan nomor handphone Anda: ");
+                int nomorHandphone = input.nextInt();
+                
+                break;
+
+                case "2":
+                //Generate Nota
+                break;
+
+                case "0":
+                System.out.print("Terima kasih telah menggunakan NotaGenerator!");
+                runningProgram = true;
+                break;
+
+                default:
+                System.out.println("Perintah tidak diketahui, silakan periksa kembali.");
+                break;
+            }
+        }
+        
     }
 
     /**
