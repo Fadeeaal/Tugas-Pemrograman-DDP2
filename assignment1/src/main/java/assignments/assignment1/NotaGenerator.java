@@ -103,16 +103,16 @@ public class NotaGenerator {
                             isInteger = true;
                             break;
                             }   
-                        else if (beratLaundry > 1){
+                        else if (beratLaundry > 1){ //Jika user input berat laundry lebih dari 1 kg
                             isInteger = true;
                             break;
                         }  
-                        else{
+                        else{ //Jika user input berat laundry kurang dari atau sama dengan 0 kg
                             System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
                             continue;
                         }        
                     } catch (Exception e) {
-                        //Jika terjadi exception selain NumberFormatException
+                        //Jika input dari user berupa non-integer
                         System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
                         input.nextLine();
                     }
@@ -162,6 +162,7 @@ public class NotaGenerator {
         String namaPelanggan = "", idPelanggan = "";
         int checkSum = 0;
 
+        //Mengambil kata terdepan dari nama user dengan mengecek per karakternya
         for (int i = 0; i < nama.length(); i++){
             if (nama.charAt(i) == ' '){
                 break;
@@ -170,7 +171,10 @@ public class NotaGenerator {
             }
         }
 
+        //Menggabungkan kata pertama nama user dengan nomor HP yang diinput
         idPelanggan = namaPelanggan.toUpperCase() + "-" + nomorHP;
+
+        //Menghitung check sum untuk kode paling akhir
         for (int j = 0; j < idPelanggan.length(); j++){
             if (Character.isLetter(idPelanggan.charAt(j))){
                 int hurufAngka = Character.getNumericValue(idPelanggan.charAt(j)) - 9;
@@ -184,58 +188,60 @@ public class NotaGenerator {
                 checkSum += 7;
             }
         }
+
+        //Mengubah check sum menjadi string
         String kodeAngka = Integer.toString(checkSum);
+
+        //Apabila check sum < 10 (1 digit), maka ditambahkan 0 didepannya
         if (checkSum < 10){
             kodeAngka = "0" + kodeAngka;
             return (idPelanggan + "-" + kodeAngka);
         }
+
+        //Apabila check sum > 10
         else{
-            if (kodeAngka.length() > 2){
+            if (kodeAngka.length() > 2){ //Apabila check sum > 2 digit
                 return idPelanggan + "-" + kodeAngka.substring(kodeAngka.length()-2, kodeAngka.length());
             }
-            else{
+            else{ //Apabila check sum sudah 2 digit
                 return idPelanggan + "-" + kodeAngka;
             }
         }
     }
 
+    //Method untuk membuat nota
     public static String generateNota(String id, String paket, int berat, String tanggalTerima){
-        int hargaPaket = 0;
-        if (paket.equalsIgnoreCase("express")){
+        //Membubat counter variabel awal untuk harga paket dan jumlah hari yang ditambahkan (untuk tanggal pengembalian)
+        int hargaPaket = 0; int daysToAdd = 0;
+
+        //Membuat format penanggalan
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(tanggalTerima, formatter);
+
+        //Membuat conditional paket yang dipilih
+        if (paket.equalsIgnoreCase("express")){ //Jika paket laundry yang dipilih express
+            daysToAdd = 1;
             hargaPaket = 12000;
         }
-        else if (paket.equalsIgnoreCase("fast")){
+        else if (paket.equalsIgnoreCase("fast")){ //Jika paket laundry yang dipilih fast
+            daysToAdd = 2;
             hargaPaket = 10000;
         }
-        else if (paket.equalsIgnoreCase("reguler")){
+        else if (paket.equalsIgnoreCase("reguler")){ //Jika paket laundry yang dipilih reguler
+            daysToAdd = 3;
             hargaPaket = 7000;
         }
+        //Mengolah tanggal selesai laundry
+        LocalDate newDate = date.plusDays(daysToAdd);
+        String newDateStr = newDate.format(formatter);
+
+        //Me-return format nota
         return
         "ID    : " + id + "\n" + 
         "Paket : " + paket + "\n" +
         "Harga :\n" +
         String.format("%d kg x %d = %d\n", berat, hargaPaket, berat * hargaPaket) +
         "Tanggal Terima  : " + tanggalTerima + "\n" +
-        "Tanggal Selesai : " + generateDate(paket, tanggalTerima);
-    }
-
-    public static String generateDate(String jenisPaket, String tanggal){
-        int daysToAdd = 0;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(tanggal, formatter);
-        
-        if (jenisPaket.equalsIgnoreCase("Express")){
-            daysToAdd = 1;
-        }
-        else if (jenisPaket.equalsIgnoreCase("Fast")){
-            daysToAdd = 2;
-        }
-        else if (jenisPaket.equalsIgnoreCase("Reguler")){
-            daysToAdd = 3;
-        }
-        LocalDate newDate = date.plusDays(daysToAdd);
-        String newDateStr = newDate.format(formatter);
-        return newDateStr;
+        "Tanggal Selesai : " + newDateStr;
     }
 }
