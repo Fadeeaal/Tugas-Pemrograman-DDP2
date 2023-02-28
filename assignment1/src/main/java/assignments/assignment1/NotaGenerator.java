@@ -181,12 +181,12 @@ public class NotaGenerator {
         //Menghitung check sum untuk kode paling akhir
         for (int j = 0; j < idPelanggan.length(); j++){
             if (Character.isLetter(idPelanggan.charAt(j))){
-                int hurufAngka = Character.getNumericValue(idPelanggan.charAt(j)) - 9;
-                checkSum += hurufAngka;
+                int checksumHuruf = Character.getNumericValue(idPelanggan.charAt(j)) - 9;
+                checkSum += checksumHuruf;
             }
             else if (Character.isDigit(idPelanggan.charAt(j))){
-                int angkaAngka = Character.getNumericValue(idPelanggan.charAt(j));
-                checkSum += angkaAngka;
+                int checksumAngka = Character.getNumericValue(idPelanggan.charAt(j));
+                checkSum += checksumAngka;
             }
             else{
                 checkSum += 7;
@@ -194,21 +194,21 @@ public class NotaGenerator {
         }
 
         //Mengubah check sum menjadi string
-        String kodeAngka = Integer.toString(checkSum);
+        String kodeChecksum = Integer.toString(checkSum);
 
         //Apabila check sum < 10 (1 digit), maka ditambahkan 0 didepannya
         if (checkSum < 10){
-            kodeAngka = "0" + kodeAngka;
-            return (idPelanggan + "-" + kodeAngka);
+            kodeChecksum = "0" + kodeChecksum;
+            return (idPelanggan + "-" + kodeChecksum);
         }
 
         //Apabila check sum > 10
         else{
-            if (kodeAngka.length() > 2){ //Apabila check sum > 2 digit
-                return idPelanggan + "-" + kodeAngka.substring(kodeAngka.length()-2, kodeAngka.length());
+            if (kodeChecksum.length() > 2){ //Apabila check sum > 2 digit
+                return idPelanggan + "-" + kodeChecksum.substring(kodeChecksum.length()-2, kodeChecksum.length());
             }
             else{ //Apabila check sum sudah 2 digit
-                return idPelanggan + "-" + kodeAngka;
+                return idPelanggan + "-" + kodeChecksum;
             }
         }
     }
