@@ -217,28 +217,28 @@ public class NotaGenerator {
     //Method untuk membuat nota
     public static String generateNota(String id, String paket, int berat, String tanggalTerima){
         //Membubat counter variabel awal untuk harga paket dan jumlah hari yang ditambahkan (untuk tanggal pengembalian)
-        int hargaPaket = 0; int daysToAdd = 0;
+        int hargaPaket = 0; int lamaMencuci = 0;
 
         //Membuat format penanggalan
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(tanggalTerima, formatter);
+        DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate tanggal = LocalDate.parse(tanggalTerima, formatTanggal);
 
         //Membuat conditional paket yang dipilih
         if (paket.equalsIgnoreCase("express")){ //Jika paket laundry yang dipilih express
-            daysToAdd = 1;
+            lamaMencuci = 1;
             hargaPaket = 12000;
         }
         else if (paket.equalsIgnoreCase("fast")){ //Jika paket laundry yang dipilih fast
-            daysToAdd = 2;
+            lamaMencuci = 2;
             hargaPaket = 10000;
         }
         else if (paket.equalsIgnoreCase("reguler")){ //Jika paket laundry yang dipilih reguler
-            daysToAdd = 3;
+            lamaMencuci = 3;
             hargaPaket = 7000;
         }
         //Mengolah tanggal selesai laundry
-        LocalDate newDate = date.plusDays(daysToAdd);
-        String newDateStr = newDate.format(formatter);
+        LocalDate tanggalSelesaiCuci = tanggal.plusDays(lamaMencuci);
+        String tanggalSelesai = tanggalSelesaiCuci.format(formatTanggal);
 
         //Me-return format nota
         return
@@ -247,6 +247,6 @@ public class NotaGenerator {
         "Harga :\n" +
         String.format("%d kg x %d = %d\n", berat, hargaPaket, berat * hargaPaket) +
         "Tanggal Terima  : " + tanggalTerima + "\n" +
-        "Tanggal Selesai : " + newDateStr;
+        "Tanggal Selesai : " + tanggalSelesai;
     }
 }
