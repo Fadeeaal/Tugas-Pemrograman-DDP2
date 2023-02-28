@@ -1,3 +1,7 @@
+/*Nama - NPM : Rakha Fadil Atmojo - 2206082985
+ *Kelas - Kode Asdos : DDP 2-F - DIV 
+ Tugas Pemrograman 01*/
+
 package assignments.assignment1;
 
 import java.time.LocalDate;
@@ -9,7 +13,8 @@ public class NotaGenerator {
     public static void main(String[] args) {
         //membuat boolean, dan variabel awal untuk nomor HP, nama pelanggan, dan berat laundry
         boolean terminateProgram = false; boolean isInteger = false;
-        String nomorHandphone = ""; String namaPelanggan = ""; String paketLaundry; int beratLaundry = 0;
+        String nomorHandphone = ""; String namaPelanggan = ""; String paketLaundry; 
+        int beratLaundry = 0;
     
         //Membuat main program
         while (!terminateProgram){
