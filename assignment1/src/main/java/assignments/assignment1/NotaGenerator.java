@@ -76,8 +76,8 @@ public class NotaGenerator {
                 dengan jenis laundry yang ada*/ 
                 do {
                     System.out.println("Masukkan paket laundry:");
-                    paketLaundry = input.next().toLowerCase();
-                    switch (paketLaundry) {
+                    paketLaundry = input.next();
+                    switch (paketLaundry.toLowerCase()) {
                         //Apabila user memasukkan input sesuai paket laundry yang tersedia
                         case "express": case "fast": case "reguler":
                         break;
@@ -92,7 +92,7 @@ public class NotaGenerator {
                         System.out.println("Paket " + paketLaundry + " tidak diketahui\n[ketik ? untuk mencari tahu jenis paket]");
                         break;
                     }
-                } while (!paketLaundry.equals("express") && !paketLaundry.equals("fast") && !paketLaundry.equals("reguler"));
+                } while (!paketLaundry.equalsIgnoreCase("express") && !paketLaundry.equalsIgnoreCase("fast") && !paketLaundry.equalsIgnoreCase("reguler"));
                 
                 /*User diminta untuk memasukkan berat cucian laundry dan akan diulang terus hingga user memasukkan berat cucian
                  sesuai dengan data yang diminta (integer)*/
