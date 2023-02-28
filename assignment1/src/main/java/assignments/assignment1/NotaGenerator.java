@@ -111,7 +111,7 @@ public class NotaGenerator {
                         else if (beratLaundry >= 2){ //Jika user input berat laundry lebih dari 1 kg
                             break;
                         }  
-                        else if (beratLaundry <= 0){ //Jika user input berat laundry kurang dari atau sama dengan 0 kg
+                        else{ //Jika user input berat laundry kurang dari atau sama dengan 0 kg
                             System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
                             continue;
                         }        
