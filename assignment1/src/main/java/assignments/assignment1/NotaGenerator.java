@@ -119,6 +119,7 @@ public class NotaGenerator {
                 }
 
                 //Masuk ke method generateNota untuk membuat nota user
+                System.out.println("Nota Laundry");
                 System.out.println(generateNota(generateId(namaPelanggan, nomorHandphone), paketLaundry, beratLaundry, tanggalTerima));
                 break;
     
@@ -210,7 +211,6 @@ public class NotaGenerator {
             hargaPaket = 7000;
         }
         return
-        "Nota Laundry\n" +
         "ID : " + id + "\n" + 
         "Paket : " + paket + "\n" +
         "Harga : \n" +
