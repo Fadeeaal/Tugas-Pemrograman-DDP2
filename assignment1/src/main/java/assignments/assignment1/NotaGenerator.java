@@ -211,7 +211,7 @@ public class NotaGenerator {
             hargaPaket = 7000;
         }
         return
-        "ID : " + id + "\n" + 
+        "ID    : " + id + "\n" + 
         "Paket : " + paket + "\n" +
         "Harga : \n" +
         String.format("%d kg x %d = %d\n", berat, hargaPaket, berat * hargaPaket) +
