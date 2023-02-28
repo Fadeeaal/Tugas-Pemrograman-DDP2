@@ -95,25 +95,31 @@ public class NotaGenerator {
                 while (!isInteger) {
                     try {
                         //Program akan memeriksa apakah input user benar
-                        String beratCucian = input.next();
-                        beratLaundry = Integer.parseInt(beratCucian);
-                
+                        beratLaundry = input.nextInt();                
                         //Jika input sudah benar
-                        if (beratLaundry < 2) { //Jika user input berat laundry sejumlah 1 kg
+                        if (beratLaundry == 1) { //Jika user input berat laundry sejumlah 1 kg
                             System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
                             beratLaundry = 2;
-                        }
-                        isInteger = true;
-                
-                    } catch (NumberFormatException e) {
-                        //Jika input dari user tidak sesuai dengan yang diminta
+                            isInteger = true;
+                            break;
+                            }   
+                        else if (beratLaundry > 1){
+                            isInteger = true;
+                            break;
+                        }  
+                        else{
+                            System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
+                            continue;
+                        }        
+                    } catch (Exception e) {
+                        //Jika terjadi exception selain NumberFormatException
                         System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
                         input.nextLine();
                     }
                 }
 
                 //Masuk ke method generateNota untuk membuat nota user
-                System.out.print(generateNota(generateId(namaPelanggan, nomorHandphone), paketLaundry, beratLaundry, tanggalTerima));
+                System.out.println(generateNota(generateId(namaPelanggan, nomorHandphone), paketLaundry, beratLaundry, tanggalTerima));
                 break;
     
                 //Apabila user memilih untuk keluar dari program
@@ -207,10 +213,10 @@ public class NotaGenerator {
         "Nota Laundry\n" +
         "ID : " + id + "\n" + 
         "Paket : " + paket + "\n" +
-        "Harga :\n" +
+        "Harga : \n" +
         String.format("%d kg x %d = %d\n", berat, hargaPaket, berat * hargaPaket) +
         "Tanggal Terima : " + tanggalTerima + "\n" +
-        "Tanggal Selesai : " + generateDate(paket, tanggalTerima) + "\n";
+        "Tanggal Selesai : " + generateDate(paket, tanggalTerima);
     }
 
     public static String generateDate(String jenisPaket, String tanggal){
