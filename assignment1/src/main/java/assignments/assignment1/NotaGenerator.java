@@ -100,19 +100,18 @@ public class NotaGenerator {
                 while (!isInteger) {
                     try {
                         //Program akan memeriksa apakah input user benar
-                        beratLaundry = input.nextInt();                
+                        beratLaundry = input.nextInt();   
+                        input.nextLine();             
                         //Jika input sudah benar
-                        if (beratLaundry == 1) { //Jika user input berat laundry sejumlah 1 kg
+                        if (beratLaundry > 0 && beratLaundry < 2) { //Jika user input berat laundry sejumlah 1 kg
                             System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
                             beratLaundry = 2;
-                            isInteger = true;
                             break;
                             }   
-                        else if (beratLaundry > 1){ //Jika user input berat laundry lebih dari 1 kg
-                            isInteger = true;
+                        else if (beratLaundry >= 2){ //Jika user input berat laundry lebih dari 1 kg
                             break;
                         }  
-                        else{ //Jika user input berat laundry kurang dari atau sama dengan 0 kg
+                        else if (beratLaundry <= 0){ //Jika user input berat laundry kurang dari atau sama dengan 0 kg
                             System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
                             continue;
                         }        
