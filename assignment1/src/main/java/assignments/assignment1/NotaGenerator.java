@@ -215,7 +215,7 @@ public class NotaGenerator {
         "Paket : " + paket + "\n" +
         "Harga : \n" +
         String.format("%d kg x %d = %d\n", berat, hargaPaket, berat * hargaPaket) +
-        "Tanggal Terima : " + tanggalTerima + "\n" +
+        "Tanggal Terima  : " + tanggalTerima + "\n" +
         "Tanggal Selesai : " + generateDate(paket, tanggalTerima);
     }
 
