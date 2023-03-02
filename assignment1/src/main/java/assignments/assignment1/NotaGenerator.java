@@ -1,6 +1,8 @@
 /*Nama - NPM : Rakha Fadil Atmojo - 2206082985
  *Kelas - Kode Asdos : DDP 2-F - DIV 
- Tugas Pemrograman 01*/
+ Tugas Pemrograman 01
+ 
+ Asumsi : Setiap input harus diisi oleh user*/
 
 package assignments.assignment1;
 
