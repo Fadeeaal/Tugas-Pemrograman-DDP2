@@ -7,52 +7,45 @@ public class Member {
     private String nama;
     private String noHp;
     private String id;
-    private int counterDiscount;
-    
+    private int bonusCounter;
     public Member(String nama, String noHp) {
         // TODO: buat constructor untuk class ini
+        this.id = NotaGenerator.generateId(nama, noHp);
         this.nama = nama;
         this.noHp = noHp;
-        this.id = NotaGenerator.generateId(nama, noHp);
-        this.counterDiscount = 0;
+        this.bonusCounter = 0;
     }
 
-    // Getter untuk atribut nama
+    // TODO: tambahkan methods yang diperlukan untuk class ini
     public String getNama() {
-        return nama;
-    }
-    
-    // Getter untuk atribut noHp
-    public String getNoHp() {
-        return noHp;
+        return this.nama;
     }
 
-    // Getter untuk atribut id
+    public String getNoHp() {
+        return this.noHp;
+    }
+
     public String getId() {
         return this.id;
     }
-    
-    // Setter untuk atribut nama
+
+    public int getBonusCounter() {
+        return this.bonusCounter;
+    }
+
     public void setNama(String nama) {
         this.nama = nama;
     }
 
-    // Setter untuk atribut noHp
     public void setNoHp(String noHp) {
-    this.noHp = noHp;
-    }
-    
-    public void resetDiscount(){
-        this.counterDiscount = 0;
+        this.noHp = noHp;
     }
 
-    public boolean cekDiscount(){
-        this.counterDiscount += 1;
-        if (this.counterDiscount != 3){
-            return false;
-        }
-        resetDiscount();
-        return true;
+    public void setId(String id) {
+        this.id = id;
     }
-    // TODO: tambahkan methods yang diperlukan untuk class ini
+
+    public void setBonusCounter(int bonusCounter) {
+        this.bonusCounter = bonusCounter;
+    }
 }
