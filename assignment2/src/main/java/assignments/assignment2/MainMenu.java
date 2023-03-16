@@ -51,15 +51,14 @@ public class MainMenu {
         boolean isExist = false;
 
         //Memnita data user berupa nama dan No HP
-        System.out.println("Masukkan nama Anda:");
+        System.out.println("Masukan nama Anda:");
         nama = input.nextLine();
 
-        System.out.println("Masukkan nomor handphone Anda:");
+        System.out.println("Masukan nomor handphone Anda:");
         while(true){
             //Melakukan pemeriksaan, apakah no HP user sudah sesuai dengan ketentuan?
             try{
-                noHp = input.nextLine();
-                Long.parseLong(noHp);
+                noHp = input.nextLine(); Long.parseLong(noHp);
                 break;
             }catch(Exception e){
                 System.out.println("Field nomor hp hanya menerima digit.");
@@ -89,22 +88,20 @@ public class MainMenu {
 
     //Method untuk membuat nota
     private static void handleGenerateNota() {
+        int berat, hariKerja; long harga;
         String id, paket;
         Member member = null;
-        int berat, hariKerja;
-        long harga;
         boolean isDiskon = false;
         Calendar tanggalSelesai = Calendar.getInstance();
 
         //Meminta id member
-        System.out.println("Masukkan ID member:");
+        System.out.println("Masukan ID member:");
         id = input.nextLine();
 
         //Memeriksa apakah member sudah terdaftar? dan jika sudah terdaftar, apakah diskon akan diberikan?
         for(int i=0; i<memberList.size(); i++){
             if(memberList.get(i).getId().equals(id)){
-                member = memberList.get(i);
-                member.setBonusCounter(member.getBonusCounter() + 1);
+                member = memberList.get(i); member.setBonusCounter(member.getBonusCounter() + 1);
 
                 if(member.getBonusCounter() == 3){
                     isDiskon = true;
@@ -117,38 +114,33 @@ public class MainMenu {
 
         //Jika member terdaftar, akan diperbolehkan untuk generate nota dan akan menolak generate nota jika terjadi sebaliknya
         if(member != null){
-
             //Meminta data-data laundry (paket yangg dipilih dan beratnya) dan menghitung
             while(true){
-                System.out.println("Masukkan paket laundry:");
+                System.out.println("Masukan paket laundry:");
                 paket = input.nextLine();
 
-                if(paket.equals("?")){
-                    showPaket();
-                }
+                if(paket.equals("?")) showPaket();
+                
                 else{
                     harga = getHargaPaket(paket.toLowerCase());
-                    if (harga == -1) {
-                        System.out.println("Paket tidak ditemukan! Input ? untuk mengetahui daftar paket!");
-                    } else {
+                    if (harga == -1) System.out.println("Paket tidak ditemukan! Input ? untuk mengetahui daftar paket!");
+                    else {
                         hariKerja = getHariPaket(paket.toLowerCase());
                         break;
                     }
                 }
             }
 
+            System.out.println("Masukan berat cucian Anda [Kg]: ");
             while(true){
                 try{
-                    System.out.println("Masukkan berat cucian Anda [Kg]:");
                     berat = Integer.parseInt(input.nextLine());
-
-                    if(berat > 0){
-                        break;
-                    }else{
-                        System.out.println("Berat tidak boleh kurang atau sama dengan 0!");
+                    if(berat > 0) break;
+                    else{
+                        System.out.println("Harap masukan berat cucian Anda dalam bentuk bilangan positif.");
                     }
                 }catch(Exception e){
-                    System.out.println("Berat hanya menerima angka!");
+                    System.out.println("Harap masukan berat cucian Anda dalam bentuk bilangan positif.");
                 }
             }
 
@@ -159,31 +151,25 @@ public class MainMenu {
 
             //Memasukkan ke class nota untuk memproses notanya
             Nota nota = new Nota(member, paket, berat, fmt.format(cal.getTime()));
-            nota.setIdNota(idCounter++);
-            nota.setSisaHariPengerjaan(hariKerja);
+            nota.setIdNota(idCounter++); nota.setSisaHariPengerjaan(hariKerja);
 
             try{
                 tanggalSelesai.setTime(fmt.parse(fmt.format(cal.getTime())));
                 tanggalSelesai.add(Calendar.DATE, hariKerja);
             }catch(Exception e){
-                System.out.println("Tanggal tidak valid!");
                 return;
             }
 
             //Program menghasilkan nota (termasuk kapan laundry bisa diambil) dan apabila menerima diskon, akan memotong harga laundrynya sebanyak 50%
             System.out.println("Berhasil menambahkan nota!");
-            System.out.printf("[ID Nota = %d]", nota.getIdNota()).println();
-            System.out.printf("ID     : %s", member.getId()).println();;
-            System.out.printf("Paket  : %s",  paket).println();
-            System.out.println("Harga  :");
-            System.out.printf("%d kg x %d = %d", berat, harga, (long)berat*harga);
+            System.out.printf("[ID Nota = %d]\nID     : %s\nPaket  : %s", nota.getIdNota(), member.getId(), paket).println();
+            System.out.printf("Harga  :\n%d kg x %d = %d", berat, harga, (long)berat*harga);
             if(isDiskon){
                 System.out.printf(" = %d %s", ((harga * (long)berat) - ((harga * (long)berat / 100) * 50)), "(Discount member 50%!!!)").println();
             }else{
                 System.out.println();
             }
-            System.out.printf("Tanggal Terima  : %s", nota.getTanggalMasuk()).println();
-            System.out.printf("Tanggal Selesai : %s", fmt.format(tanggalSelesai.getTime())).println();
+            System.out.printf("Tanggal Terima  : %s\nTanggal Selesai : %s", nota.getTanggalMasuk(), fmt.format(tanggalSelesai.getTime())).println();
             System.out.printf("Status          : %s", (nota.getIsReady() ? "Sudah dapat diambil!" : "Belum bisa diambil :(")).println();;
             notaList.add(nota);
 
@@ -196,7 +182,7 @@ public class MainMenu {
     private static void handleListNota() {
         System.out.printf("Terdaftar %d nota dalam sistem.", notaList.size()).println();
         for(Nota n : notaList){
-            System.out.println("- [" + n.getIdNota() + "] Status\t: " + (n.getIsReady() ? "Sudah dapat diambil!" : "Belum bisa diambil :("));
+            System.out.printf("- [%d] Status\t: %s", n.getIdNota(), (n.getIsReady() ? "Sudah dapat diambil!" : "Belum bisa diambil :(")).println();
         }
     }
 
@@ -214,7 +200,7 @@ public class MainMenu {
         int idNota, indexNota = -1;
         
         //Meminta user untuk memasukkan ID nota yang akan diambil dan harus berupa angka//
-        System.out.println("Masukkan ID nota yang akan diambil:");
+        System.out.println("Masukan ID nota yang akan diambil:");
         while(true){
             try{
                 inputIdNota = input.nextLine();
@@ -248,13 +234,11 @@ public class MainMenu {
 
     //Method untuk handle ganti hari di sistem
     private static void handleNextDay() {
-        cal.setTime(cal.getTime());
-        cal.add(Calendar.DATE, 1);
+        cal.setTime(cal.getTime()); cal.add(Calendar.DATE, 1);
 
         System.out.println("Dek Depe tidur hari ini... zzz...");
         for(int i=0; i < notaList.size(); i++){
             Nota n = notaList.get(i);
-            
             n.setSisaHariPengerjaan(n.getSisaHariPengerjaan() - 1);
 
             if(n.getSisaHariPengerjaan() <= 0){
@@ -263,8 +247,7 @@ public class MainMenu {
             }
             notaList.set(i, n);
         }
-        System.out.println("Selamat pagi dunia!");
-        System.out.println("Dek Depe: It's CuciCuci Time.");
+        System.out.println("Selamat pagi dunia!\nDek Depe: It's CuciCuci Time.");
     }
 
     //Method untuk mencetak pilihan main menu
@@ -281,3 +264,4 @@ public class MainMenu {
         System.out.println("[0] Exit");
     }
 }
+//Collaborator : Muhammad Pendar Bintang Kasdiono - 2206083174
