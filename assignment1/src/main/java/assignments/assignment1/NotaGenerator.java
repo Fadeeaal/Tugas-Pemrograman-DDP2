@@ -133,7 +133,7 @@ public class NotaGenerator {
         return -1;
     }
 
-    public static boolean isNumeric(String str) {
+    private static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c))
                 return false;
@@ -141,21 +141,21 @@ public class NotaGenerator {
         return true;
     }
 
-    public static String handleMenuGenerateID() {
+    private static String handleMenuGenerateID() {
         System.out.println("Masukkan nama Anda:");
         String nama = input.nextLine();
 
         System.out.println("Masukkan nomor handphone Anda:");
         String nomorHP = input.nextLine();
         while (!isNumeric(nomorHP)) {
-            System.out.println("Field nomor hp hanya menerima digit.");
+            System.out.println("Nomor hp hanya menerima digit");
             nomorHP = input.nextLine();
         }
 
         return generateId(nama, nomorHP);
     }
 
-    public static void handleMenuGenerateNota() {
+    private static void handleMenuGenerateNota() {
         String id = handleMenuGenerateID();
         System.out.println("Masukkan tanggal terima:");
         String tanggalTerima = input.nextLine();
