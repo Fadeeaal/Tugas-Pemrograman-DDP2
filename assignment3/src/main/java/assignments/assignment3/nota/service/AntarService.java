@@ -1,6 +1,6 @@
 package assignments.assignment3.nota.service;
-
 import assignments.assignment3.nota.Nota;
+import assignments.assignment1.NotaGenerator;
 
 public class AntarService implements LaundryService{
     @Override

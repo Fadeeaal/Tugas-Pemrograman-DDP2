@@ -49,8 +49,8 @@ public abstract class SystemCLI {
         System.out.println("Logging out...");
     }
 
-    /**
-     * Mengecek semua user dengan ID dan password yang diberikan.
+
+     /* Mengecek semua user dengan ID dan password yang diberikan.
      *
      * @param id -> ID pengguna yang akan diautentikasi.
      * @param pass -> password pengguna untuk mengautentikasi.
@@ -76,8 +76,7 @@ public abstract class SystemCLI {
      * @return true jika ada member dengan ID yang diberikan, false jika tidak.
      */
     public boolean isMemberExist(String id){
-        for (Member member:
-                memberList) {
+        for (Member member : memberList) {
             if(member.getId().equals(id)){
                 return true;
             }

@@ -13,6 +13,7 @@ public class NotaManager {
      */
     public static void toNextDay(){
         //TODO: implement skip hari
+        cal.setTime(cal.getTime()); cal.add(Calendar.DATE, 1); //skip hari
     }
 
     /**

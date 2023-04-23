@@ -1,4 +1,6 @@
 package assignments.assignment3.user.menu;
+import java.util.Arrays;
+
 import assignments.assignment3.user.Member;
 
 public class MemberSystem extends SystemCLI {
@@ -32,5 +34,9 @@ public class MemberSystem extends SystemCLI {
      */
     public void addMember(Member member) {
         // TODO
+        Member[] temp = Arrays.copyOf(memberList, memberList.length + 1); // create a new array with the size increased by 1
+        temp[temp.length - 1] = member; // add new member to the last element of the array
+        memberList = temp; // assign the new array to memberList
+        System.out.println(memberList);
     }
 }
