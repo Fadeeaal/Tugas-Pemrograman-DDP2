@@ -1,10 +1,11 @@
 package assignments.assignment3;
 
-import assignments.assignment1.NotaGenerator;
 import assignments.assignment3.user.Member;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
 import assignments.assignment3.user.menu.SystemCLI;
+
+import static assignments.assignment1.NotaGenerator.generateId;
 
 public class LoginManager {
     private final EmployeeSystem employeeSystem;
@@ -19,13 +20,13 @@ public class LoginManager {
      * Method mapping dari ke SystemCLI yang sesuai.
      *
      * @param id -> ID dari user yang akan menggunakan SystemCLI
-     * @return SystemCLI object yang sesuai dengan ID, null if  ID tidak ditemukan.
+     * @return SystemCLI object yang sesuai dengan ID, null if ID tidak ditemukan.
      */
-    public SystemCLI getSystem(String id){
-        if(memberSystem.isMemberExist(id)){
+    public SystemCLI getSystem(String id) {
+        if (memberSystem.isMemberExist(id)) {
             return memberSystem;
         }
-        if(employeeSystem.isMemberExist(id)){
+        if (employeeSystem.isMemberExist(id)) {
             return employeeSystem;
         }
         return null;
@@ -34,19 +35,20 @@ public class LoginManager {
     /**
      * Mendaftarkan member baru dengan informasi yang diberikan.
      *
-     * @param nama -> Nama member.
-     * @param noHp -> Nomor handphone member.
+     * @param nama     -> Nama member.
+     * @param noHp     -> Nomor handphone member.
      * @param password -> Password akun member.
-     * @return Member object yang berhasil mendaftar, return null jika gagal mendaftar.
+     * @return Member object yang berhasil mendaftar, return null jika gagal
+     *         mendaftar.
      */
     public Member register(String nama, String noHp, String password) {
-        // TODO : register account
-        String idMember = NotaGenerator.generateId(nama, noHp);
-        if (!memberSystem.isMemberExist(idMember)){
-            Member member = new Member(nama, idMember, password);
+        // TODO
+        if (!memberSystem.isMemberExist(generateId(nama, noHp))) {
+            Member member = new Member(nama, generateId(nama, noHp), password);
             memberSystem.addMember(member);
             return member;
         }
+
         return null;
     }
 }

@@ -21,7 +21,8 @@ public class MainMenu {
      * @param args command line arguments, bisa kalian ignore.
      */
     public static void main(String[] args) {
-        MainMenu mainMenu = new MainMenu(new Scanner(System.in), new LoginManager(new EmployeeSystem(), new MemberSystem()));
+        MainMenu mainMenu = new MainMenu(new Scanner(System.in),
+                new LoginManager(new EmployeeSystem(), new MemberSystem()));
         mainMenu.run();
     }
 
@@ -40,11 +41,21 @@ public class MainMenu {
             int choice = in.nextInt();
             in.nextLine();
             switch (choice) {
-                case 1 -> login();
-                case 2 -> register();
-                case 3 -> toNextDay();
-                case 4 -> exit = true;
-                default -> System.out.println("Pilihan tidak valid, silakan coba lagi.");
+                case 1:
+                    login();
+                    break;
+                case 2:
+                    register();
+                    break;
+                case 3:
+                    toNextDay();
+                    break;
+                case 4:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid, silakan coba lagi.");
+                    break;
             }
         }
 
@@ -71,7 +82,7 @@ public class MainMenu {
         String password = in.nextLine();
 
         Member registeredMember = loginManager.register(nama, noHp, password);
-        if(registeredMember == null){
+        if (registeredMember == null) {
             System.out.printf("User dengan nama %s dan nomor hp %s sudah ada!\n", nama, noHp);
             return;
         }
@@ -87,7 +98,7 @@ public class MainMenu {
         System.out.print("Masukan password Anda: ");
         String inputPassword = in.nextLine();
         SystemCLI systemCLI = loginManager.getSystem(inputId);
-        if(systemCLI == null){
+        if (systemCLI == null) {
             System.out.println("ID atau password invalid.");
             return;
         }
