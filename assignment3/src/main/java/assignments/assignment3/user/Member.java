@@ -36,7 +36,6 @@ public class Member {
      * @param nota Nota object untuk ditambahkan.
      */
     public void addNota(Nota nota) {
-        // TODO
         notaList.add(nota);
     }
 
@@ -48,7 +47,6 @@ public class Member {
      *         tidak.
      */
     protected boolean authenticate(String password) {
-        // TODO
         return this.password.equals(password);
     }
 

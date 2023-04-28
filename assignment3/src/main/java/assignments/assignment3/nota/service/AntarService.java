@@ -5,24 +5,21 @@ public class AntarService implements LaundryService {
 
     @Override
     public String doWork() {
-        // TODO
         if (isWorked == true) {
             return "Sudah selesai.";
         }
         isWorked = true;
-        return "sedang mengantar...";
+        return "Sedang mengantar...";
     }
 
     @Override
     public boolean isDone() {
-        // TODO
         return isWorked;
     }
 
     @Override
     public long getHarga(int berat) {
-        // TODO
-        if (berat * 500 >= 2000) {
+        if (berat * 500 > 2000) {
             return berat * 500;
         }
         return 2000;

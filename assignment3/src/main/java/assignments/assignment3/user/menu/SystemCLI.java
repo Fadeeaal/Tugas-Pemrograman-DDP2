@@ -22,16 +22,14 @@ public abstract class SystemCLI {
      */
     public void login(Scanner in, String inputId, String inputPassword) {
         Member authMember = authUser(inputId, inputPassword);
-
         if (authMember != null) {
             this.in = in;
             System.out.println("Login successful!");
             run(in, authMember);
             return;
         }
-
         System.out.println("Invalid ID or password.");
-    };
+    }
 
     /**
      * Memulai sesi pengguna dan menangani input.
@@ -49,7 +47,7 @@ public abstract class SystemCLI {
             logout = processChoice(choice);
         }
         loginMember = null;
-        System.out.println("Logging out...");
+        System.out.println("Logging out...\n");
     }
 
     /**
@@ -70,7 +68,7 @@ public abstract class SystemCLI {
             return null;
         }
         return null;
-    };
+    }
 
     /**
      * Memeriksa apakah ada Member dengan ID yang diberikan.

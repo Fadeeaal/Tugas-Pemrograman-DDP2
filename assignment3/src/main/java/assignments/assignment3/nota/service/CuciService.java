@@ -5,7 +5,6 @@ public class CuciService implements LaundryService {
 
     @Override
     public String doWork() {
-        // TODO
         if (isWorked == true) {
             return "Sudah selesai.";
         }
@@ -15,13 +14,11 @@ public class CuciService implements LaundryService {
 
     @Override
     public boolean isDone() {
-        // TODO
         return isWorked;
     }
 
     @Override
     public long getHarga(int berat) {
-        // TODO
         return 0;
     }
 

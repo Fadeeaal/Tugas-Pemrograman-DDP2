@@ -42,13 +42,11 @@ public class LoginManager {
      *         mendaftar.
      */
     public Member register(String nama, String noHp, String password) {
-        // TODO
         if (!memberSystem.isMemberExist(generateId(nama, noHp))) {
             Member member = new Member(nama, generateId(nama, noHp), password);
             memberSystem.addMember(member);
             return member;
         }
-
         return null;
     }
 }

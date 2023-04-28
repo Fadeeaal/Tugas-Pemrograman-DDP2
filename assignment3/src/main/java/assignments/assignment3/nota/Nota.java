@@ -17,14 +17,10 @@ import static assignments.assignment1.NotaGenerator.getHargaPaket;
 
 public class Nota {
     private Member member;
-    private String paket;
+    private String paket, tanggalMasuk, tanggalSelesai;
     private List<LaundryService> services;
     private long baseHarga;
-    private int sisaHariPengerjaan;
-    private int berat;
-    private int id;
-    private String tanggalMasuk;
-    private String tanggalSelesai;
+    private int sisaHariPengerjaan, berat, id;
     private boolean isDone;
     static public int totalNota;
 
@@ -44,12 +40,10 @@ public class Nota {
     }
 
     public void addService(LaundryService service) {
-        // TODO
         services.add(service);
     }
 
     public String kerjakan() {
-        // TODO
         String output = "";
         if (!services.get(0).isDone()) {
             output = services.get(0).doWork();
@@ -57,18 +51,18 @@ public class Nota {
 
         if (services.size() > 1 && !services.get(1).isDone() && output.equals("")) {
             output = services.get(1).doWork();
-
-            if(services.get(1).getClass() == AntarService.class){
+            
+            if (services.get(1) instanceof AntarService) {
                 isDone = true;
                 tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
             }
         }
-
+        
         if (services.size() > 2 && output.equals("") && !services.get(2).isDone()) {
             output = services.get(2).doWork();
             tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
             isDone = true;
-        }
+        }        
 
         if (output.equals("")) {
             output = "Sudah selesai.";
@@ -77,37 +71,31 @@ public class Nota {
                 isDone = true;
             }
         }
-
         return output;
     }
 
     public void toNextDay() {
-        // TODO
         sisaHariPengerjaan -= 1;
     }
 
     public long calculateHarga() {
-        // TODO
         long total = baseHarga * berat;
         for (LaundryService service : services) {
             total += service.getHarga(berat);
         }
-
         return total;
     }
 
     public String getNotaStatus() {
-        // TODO
         String output = "";
         if (sisaHariPengerjaan > 0) {
             output = "Sedang mencuci...";
         }
 
         if (services.size() > 1) {
-            if (services.get(1).getClass() == SetrikaService.class && !services.get(1).isDone() && output.equals("")) {
+            if (services.get(1) instanceof SetrikaService && !services.get(1).isDone() && output.equals("")) {
                 output = "Sedang menyetrika...";
-            } else if (services.get(1).getClass() == AntarService.class && !services.get(1).isDone()
-                    && output.equals("")) {
+            } else if (services.get(1) instanceof AntarService && !services.get(1).isDone() && output.equals("")) {
                 output = "Sedang mengantar...";
                 if(!isDone){
                     isDone = true;
@@ -131,13 +119,11 @@ public class Nota {
                 isDone = true;
             }
         }
-
         return output;
     }
 
     @Override
     public String toString() {
-        // TODO
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Calendar cal = Calendar.getInstance();
         int year = Integer.parseInt(tanggalMasuk.substring(6));
@@ -145,12 +131,10 @@ public class Nota {
         int date = Integer.parseInt(tanggalMasuk.substring(0, 2));
         cal.set(year, month, date);
         cal.add(Calendar.DATE, getHariPaket(paket));
-        long kompensasi;
-        long beda = 0;
+        long kompensasi, beda = 0;
 
         try{
-            Date dateExpectSelesai = NotaManager.fmt.parse(formatter.format(cal.getTime()));
-            Date dateSelesai;
+            Date dateExpectSelesai = NotaManager.fmt.parse(formatter.format(cal.getTime())); Date dateSelesai;
             if(tanggalSelesai.equals("")){
                 dateSelesai = NotaManager.fmt.parse(formatter.format(NotaManager.cal.getTime()));
             }else{
@@ -167,28 +151,27 @@ public class Nota {
             kompensasi = 0;
         }
 
-        String output = "[ID Nota = " + id + "]\n";
-        output += "ID     : " + member.getId() + "\n";
-        output += "Paket  : " + paket + "\n";
-        output += "Harga  :\n";
-        output += berat + " kg x " + baseHarga + " = " + (baseHarga * berat) + "\n";
-        output += "tanggal terima  : " + tanggalMasuk + "\n";
-        output += "Tanggal Selesai : " + formatter.format(cal.getTime()) + "\n";
-        output += "--- SERVICE LIST ---\n";
-        output += "Cuci @ Rp." + services.get(0).getHarga(berat) + "\n";
+        String output = "[ID Nota = " + id + "]\n" + 
+        "ID     : " + member.getId() + "\n" + 
+        "Paket  : " + paket + "\n" + 
+        "Harga  :\n" + 
+        berat + " kg x " + baseHarga + " = " + (baseHarga * berat) + "\n" + 
+        "tanggal terima  : " + tanggalMasuk + "\n" + 
+        "tanggal selesai : " + formatter.format(cal.getTime()) + "\n" + 
+        "--- SERVICE LIST ---\n" + 
+        "-Cuci @ Rp." + services.get(0).getHarga(berat) + "\n";
 
         if (services.size() > 1) {
-            if (services.get(1).getClass() == SetrikaService.class) {
-                output += "Setrika @ Rp." + services.get(1).getHarga(berat) + "\n";
+            if (services.get(1) instanceof SetrikaService) {
+                output += "-Setrika @ Rp." + services.get(1).getHarga(berat) + "\n";
             } else {
-                output += "Antar @ Rp." + services.get(1).getHarga(berat) + "\n";
+                output += "-Antar @ Rp." + services.get(1).getHarga(berat) + "\n";
             }
         }
 
         if (services.size() > 2) {
-            output += "Antar @ Rp." + services.get(2).getHarga(berat) + "\n";
+            output += "-Antar @ Rp." + services.get(2).getHarga(berat) + "\n";
         }
-
         output += "Harga Akhir: ";
 
         if(kompensasi > 0){
@@ -196,7 +179,6 @@ public class Nota {
         }else{
             output += calculateHarga() + "\n";
         }
-
         return output;
     }
 

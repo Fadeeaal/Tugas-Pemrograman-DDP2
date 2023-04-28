@@ -20,56 +20,10 @@ public class MemberSystem extends SystemCLI {
     @Override
     protected boolean processChoice(int choice) {
         boolean logout = false;
-        if (choice == 1) {
-            showPaket();
-            System.out.println("Masukkan paket laundry:");
-            String paket = in.nextLine();
-
-            System.out.println("Masukkan berat cucian Anda [Kg]: ");
-            String beratInput = in.nextLine();
-            int berat = Integer.parseInt(beratInput);
-
-            if (berat < 2) {
-                System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
-                berat = 2;
-            }
-
-            Nota nota = new Nota(loginMember, berat, paket, NotaManager.fmt.format(NotaManager.cal.getTime()));
-
-            System.out.println(
-                    "Apakah kamu ingin cucianmu disetrika oleh staff professional kami? Hanya tambah 1000 / kg :0");
-            System.out.print("[Ketik x untuk tidak mau]: ");
-            char confirm = in.nextLine().charAt(0);
-            if (confirm != 'x') {
-                nota.addService(new SetrikaService());
-            }
-
-            System.out.println(
-                    "Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan! Cuma 2000 / 4kg, kemudian 500 / kg");
-            System.out.print("[Ketik x untuk tidak mau]: ");
-            confirm = in.nextLine().charAt(0);
-            if (confirm != 'x') {
-                nota.addService(new AntarService());
-            }
-
-            System.out.println("Nota berhasil dibuat!");
-            loginMember.addNota(nota);
-            NotaManager.addNota(nota);
-
-        } else if (choice == 2) {
-            if (loginMember.getNotaList().size() == 0) {
-                System.out.println("Tidak ada nota yang dibuat");
-            } else {
-                List<Nota> notaLst = loginMember.getNotaList();
-                for (int i = 0; i < notaLst.size(); i++) {
-                    System.out.print(notaLst.get(i).toString());
-                    if (i < notaLst.size() - 1) {
-                        System.out.println();
-                    }
-                }
-            }
-        } else if (choice == 3) {
-            logout = true;
+        switch (choice){
+            case 1 -> wantToLaundry();
+            case 2 -> displayNota();
+            case 3 -> logout = true;
         }
         return logout;
     }
@@ -90,7 +44,53 @@ public class MemberSystem extends SystemCLI {
      * @param member -> Member baru yang akan ditambahkan.
      */
     public void addMember(Member member) {
-        // TODO
         memberList.add(member);
+    }
+
+    protected void wantToLaundry(){
+        String confirm = "";
+
+        showPaket();
+        System.out.println("Masukkan paket laundry:");
+        String paket = in.nextLine();
+        System.out.println("Masukkan berat cucian Anda [Kg]: ");
+        String beratInput = in.nextLine();
+        int berat = Integer.parseInt(beratInput);
+        if (berat < 2) {
+            System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
+            berat = 2;
+        }
+        Nota nota = new Nota(loginMember, berat, paket, NotaManager.fmt.format(NotaManager.cal.getTime()));
+
+        System.out.println("Apakah kamu ingin cucianmu disetrika oleh staff professional kami? Hanya tambah 1000 / kg :0");
+        System.out.print("[Ketik x untuk tidak mau]: ");
+        confirm = in.nextLine();
+        if (!confirm.equalsIgnoreCase("x")) {
+            nota.addService(new SetrikaService());
+        }
+
+        System.out.println("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan! Cuma 2000 / 4kg, kemudian 500 / kg");
+        System.out.print("[Ketik x untuk tidak mau]: ");
+        confirm = in.nextLine();
+        if (!confirm.equalsIgnoreCase("x")) {
+            nota.addService(new AntarService());
+        }
+
+        System.out.println("Nota berhasil dibuat!");
+        loginMember.addNota(nota); NotaManager.addNota(nota);
+    }
+
+    protected void displayNota(){
+        if (loginMember.getNotaList().size() == 0) {
+            System.out.println("Tidak ada nota yang dibuat");
+        } else {
+            List<Nota> notaList = loginMember.getNotaList();
+            for (int i = 0; i < notaList.size(); i++) {
+                System.out.print(notaList.get(i).toString());
+                if (i < notaList.size() - 1) {
+                    System.out.println();
+                }
+            }
+        }
     }
 }

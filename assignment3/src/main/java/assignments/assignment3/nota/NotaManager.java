@@ -14,9 +14,7 @@ public class NotaManager {
      * Skips ke hari berikutnya dan update semua entri nota yang sesuai.
      */
     public static void toNextDay() {
-        // TODO: implement skip hari
-        cal.setTime(cal.getTime());
-        cal.add(Calendar.DATE, 1);
+        cal.setTime(cal.getTime()); cal.add(Calendar.DATE, 1);
         for (Nota nota : notaList) {
             nota.toNextDay();
         }
@@ -28,8 +26,6 @@ public class NotaManager {
      * @param nota Nota object untuk ditambahkan.
      */
     public static void addNota(Nota nota) {
-        // TODO: implement add nota
-
         notaList.add(nota);
     }
 }

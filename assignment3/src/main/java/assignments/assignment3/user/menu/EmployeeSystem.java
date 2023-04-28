@@ -31,27 +31,10 @@ public class EmployeeSystem extends SystemCLI {
     @Override
     protected boolean processChoice(int choice) {
         boolean logout = false;
-        // TODO:
-        if (choice == 1) {
-            System.out.println("Stand back! " + loginMember.getNama() + " beginning to nyuci!");
-            for (int i = 0; i < notaList.size(); i++) {
-                System.out.println("Nota " + i + " : " + notaList.get(i).kerjakan());
-            }
-        } else if (choice == 2) {
-            if (notaList.size() == 0) {
-                System.out.println("Belum ada nota yang dibuat");
-            } else {
-                for (int i = 0; i < notaList.size(); i++) {
-                    System.out.print("Nota " + i + " : ");
-                    if (notaList.get(i).isDone()) {
-                        System.out.println("Sudah selesai.");
-                    } else {
-                        System.out.println("Belum selesai.");
-                    }
-                }
-            }
-        } else if (choice == 3) {
-            logout = true;
+        switch (choice){
+            case 1 -> beginNyuci();
+            case 2 -> displayNota();
+            case 3 -> logout = true;
         }
         return logout;
     }
@@ -64,5 +47,27 @@ public class EmployeeSystem extends SystemCLI {
         System.out.println("1. It's nyuci time");
         System.out.println("2. Display List Nota");
         System.out.println("3. Logout");
+    }
+
+    protected void beginNyuci(){
+        System.out.printf("Stand back! %s beginning to nyuci!", loginMember.getNama()).println();
+        for (int i = 0; i < notaList.size(); i++) {
+            System.out.println("Nota " + i + " : " + notaList.get(i).kerjakan());
+        }
+    }
+
+    protected void displayNota(){
+        if (notaList.size() == 0) {
+            System.out.println("Belum ada nota di dalam sistem!");
+        } else {
+            for (int i = 0; i < notaList.size(); i++) {
+                System.out.print("Nota " + i + " : ");
+                if (notaList.get(i).isDone()) {
+                    System.out.println("Sudah selesai.");
+                } else {
+                    System.out.println("Belum selesai.");
+                }
+            }
+        }
     }
 }
