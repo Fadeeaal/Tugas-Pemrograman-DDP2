@@ -51,7 +51,6 @@ public class Member {
     }
 
     // Dibawah ini adalah getter
-
     public String getNama() {
         return nama;
     }

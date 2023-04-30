@@ -19,13 +19,13 @@ public class Nota {
     private Member member;
     private String paket, tanggalMasuk, tanggalSelesai;
     private List<LaundryService> services;
-    private long baseHarga;
+    private long baseHarga, finalHarga;
     private int sisaHariPengerjaan, berat, id;
     private boolean isDone;
     static public int totalNota;
 
     public Nota(Member member, int berat, String paket, String tanggal) {
-        // TODO
+        //Membuat constructor untuk Nota
         this.member = member;
         this.berat = berat;
         this.paket = paket;
@@ -39,19 +39,26 @@ public class Nota {
         tanggalSelesai = "";
     }
 
+    //Method untuk memasukkan service yang digunakan oleh member
     public void addService(LaundryService service) {
         services.add(service);
     }
 
+    /*Method untuk mengerjakan service yang digunakan oleh member
+     *Setiap pesanan service akan dimasukkan ke array yang isinya mulai dari 1 (hanya cuci) hingga 3 service*/
+
     public String kerjakan() {
         String output = "";
+
+        //Apabila service cucian belum selesai, maka akan masuk ke method doWork untuk dikerjakan
         if (!services.get(0).isDone()) {
             output = services.get(0).doWork();
         }
 
+        /*Apabila service > 1, akan diperiksa.
+         *Apabila hanya 1 service tambahan, akan diperiksa service tambahan apa yang dipesan*/
         if (services.size() > 1 && !services.get(1).isDone() && output.equals("")) {
             output = services.get(1).doWork();
-            
             if (services.get(1) instanceof AntarService) {
                 isDone = true;
                 tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
@@ -64,6 +71,7 @@ public class Nota {
             isDone = true;
         }        
 
+        //Dipanggil apabila sudah selesai
         if (output.equals("")) {
             output = "Sudah selesai.";
             if(!isDone){
@@ -74,10 +82,12 @@ public class Nota {
         return output;
     }
 
+    //Method untuk berpindah hari di notanya yang membuat sisa hari pengerjaannya berkurang
     public void toNextDay() {
         sisaHariPengerjaan -= 1;
     }
 
+    //Method untuk menghitung harga
     public long calculateHarga() {
         long total = baseHarga * berat;
         for (LaundryService service : services) {
@@ -86,12 +96,16 @@ public class Nota {
         return total;
     }
 
+    //Mengembalikan pesan nota
     public String getNotaStatus() {
         String output = "";
+
+
         if (sisaHariPengerjaan > 0) {
             output = "Sedang mencuci...";
         }
 
+        //Jika service tambahan > 1, maka akan memeriksa service tambahannya
         if (services.size() > 1) {
             if (services.get(1) instanceof SetrikaService && !services.get(1).isDone() && output.equals("")) {
                 output = "Sedang menyetrika...";
@@ -103,7 +117,6 @@ public class Nota {
                 }
             }
         }
-
         if (services.size() > 2 && output.equals("") && !services.get(1).isDone()) {
             output = "Sedang mengantar...";
             if(!isDone){
@@ -112,6 +125,7 @@ public class Nota {
             }
         }
 
+        //Akan dipanggil jika pesanan sudah selesai
         if (output.equals("")) {
             output = "Sudah selesai.";
             if(!isDone){
@@ -122,6 +136,7 @@ public class Nota {
         return output;
     }
 
+    //Akan dipanggil untuk mencetak format nota untuk member
     @Override
     public String toString() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -174,8 +189,13 @@ public class Nota {
         }
         output += "Harga Akhir: ";
 
+        //Kompensasi apabila ada keterlambatan pengerjaan. Jika kompensasi > harga akhir setelah pemotongan, akan mereturn nilai 0 (gratis)
         if(kompensasi > 0){
-            output += (calculateHarga() - kompensasi) + " Ada kompensasi keterlambatan " + beda + " * 2000 hari\n";
+            finalHarga = calculateHarga() - kompensasi;
+            if (finalHarga < 0){
+                finalHarga = 0;
+                }
+            output += finalHarga + " Ada kompensasi keterlambatan " + beda + " * 2000 hari\n";
         }else{
             output += calculateHarga() + "\n";
         }
@@ -183,7 +203,6 @@ public class Nota {
     }
 
     // Dibawah ini adalah getter
-
     public String getPaket() {
         return paket;
     }

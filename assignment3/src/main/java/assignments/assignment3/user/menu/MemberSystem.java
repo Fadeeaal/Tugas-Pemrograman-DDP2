@@ -47,13 +47,15 @@ public class MemberSystem extends SystemCLI {
         memberList.add(member);
     }
 
+    //Method untuk membuat laundry. Mulai dari memasukkan jenis paket, berat, dan layanan tambahan
     protected void wantToLaundry(){
         String confirm = "";
 
-        showPaket();
+        //Memasukkan nota awal dengan layanan utama -> mencuci
         System.out.println("Masukkan paket laundry:");
+        showPaket();
         String paket = in.nextLine();
-        System.out.println("Masukkan berat cucian Anda [Kg]: ");
+        System.out.println("Masukan berat cucian Anda [Kg]: ");
         String beratInput = in.nextLine();
         int berat = Integer.parseInt(beratInput);
         if (berat < 2) {
@@ -62,14 +64,16 @@ public class MemberSystem extends SystemCLI {
         }
         Nota nota = new Nota(loginMember, berat, paket, NotaManager.fmt.format(NotaManager.cal.getTime()));
 
-        System.out.println("Apakah kamu ingin cucianmu disetrika oleh staff professional kami? Hanya tambah 1000 / kg :0");
+        /*Meminta input user apakah ingin menggunakan layanan tambahan (setrika dan / antar)
+         Jika ingin menggunakan layanan tambahannya, akan memasukannya ke class sesuai fitur tambahan yang diinginkan*/
+        System.out.println("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\nHanya tambah 1000 / kg :0");
         System.out.print("[Ketik x untuk tidak mau]: ");
         confirm = in.nextLine();
         if (!confirm.equalsIgnoreCase("x")) {
             nota.addService(new SetrikaService());
         }
 
-        System.out.println("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan! Cuma 2000 / 4kg, kemudian 500 / kg");
+        System.out.println("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan!\nCuma 2000 / 4kg, kemudian 500 / kg");
         System.out.print("[Ketik x untuk tidak mau]: ");
         confirm = in.nextLine();
         if (!confirm.equalsIgnoreCase("x")) {
@@ -80,6 +84,7 @@ public class MemberSystem extends SystemCLI {
         loginMember.addNota(nota); NotaManager.addNota(nota);
     }
 
+    //Method untuk menampilkan nota yang dibuatnya
     protected void displayNota(){
         if (loginMember.getNotaList().size() == 0) {
             System.out.println("Tidak ada nota yang dibuat");

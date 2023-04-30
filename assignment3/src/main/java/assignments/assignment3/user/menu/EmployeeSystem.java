@@ -49,6 +49,7 @@ public class EmployeeSystem extends SystemCLI {
         System.out.println("3. Logout");
     }
 
+    //Method yang akan dipanggil jika employee akan memulai untuk mencuci/menyetrika/mengantar
     protected void beginNyuci(){
         System.out.printf("Stand back! %s beginning to nyuci!", loginMember.getNama()).println();
         for (int i = 0; i < notaList.size(); i++) {
@@ -56,6 +57,7 @@ public class EmployeeSystem extends SystemCLI {
         }
     }
 
+    //Method untuk menampilkan progres nota, apakah sudah selesai atau belum
     protected void displayNota(){
         if (notaList.size() == 0) {
             System.out.println("Belum ada nota di dalam sistem!");

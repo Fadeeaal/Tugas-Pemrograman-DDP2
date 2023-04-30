@@ -4,6 +4,7 @@ public class AntarService implements LaundryService {
     private boolean isWorked = false;
 
     @Override
+    //Method untuk melakukan pekerjaan (mengantar)
     public String doWork() {
         if (isWorked == true) {
             return "Sudah selesai.";
@@ -12,11 +13,13 @@ public class AntarService implements LaundryService {
         return "Sedang mengantar...";
     }
 
+    //Method untuk tanda apakah sudah selesai
     @Override
     public boolean isDone() {
         return isWorked;
     }
 
+    //Method untuk menghitung harga di list service tambahan (biaya antar laundry)
     @Override
     public long getHarga(int berat) {
         if (berat * 500 > 2000) {
