@@ -17,10 +17,11 @@ import static assignments.assignment1.NotaGenerator.getHargaPaket;
 
 public class Nota {
     private Member member;
-    private String paket, tanggalMasuk, tanggalSelesai;
+    private String paket;
     private List<LaundryService> services;
     private long baseHarga, finalHarga;
     private int sisaHariPengerjaan, berat, id;
+    private String tanggalMasuk, tanggalSelesai;
     private boolean isDone;
     static public int totalNota;
 
@@ -46,30 +47,36 @@ public class Nota {
 
     /*Method untuk mengerjakan service yang digunakan oleh member
      *Setiap pesanan service akan dimasukkan ke array yang isinya mulai dari 1 (hanya cuci) hingga 3 service*/
-
     public String kerjakan() {
         String output = "";
 
         //Apabila service cucian belum selesai, maka akan masuk ke method doWork untuk dikerjakan
         if (!services.get(0).isDone()) {
             output = services.get(0).doWork();
+            if(services.size() == 1){
+                isDone = true;
+                tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
+            }
         }
 
         /*Apabila service > 1, akan diperiksa.
          *Apabila hanya 1 service tambahan, akan diperiksa service tambahan apa yang dipesan*/
         if (services.size() > 1 && !services.get(1).isDone() && output.equals("")) {
             output = services.get(1).doWork();
-            if (services.get(1) instanceof AntarService) {
+            if(services.get(1) instanceof AntarService){
+                isDone = true;
+                tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
+            }else if(services.get(1) instanceof SetrikaService && services.size() == 2){
                 isDone = true;
                 tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
             }
         }
-        
+
         if (services.size() > 2 && output.equals("") && !services.get(2).isDone()) {
             output = services.get(2).doWork();
             tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
             isDone = true;
-        }        
+        }
 
         //Dipanggil apabila sudah selesai
         if (output.equals("")) {
@@ -100,6 +107,9 @@ public class Nota {
     public String getNotaStatus() {
         String output = "";
 
+        if (isDone){
+            output = "Sudah selesai.";
+        }
 
         if (sisaHariPengerjaan > 0) {
             output = "Sedang mencuci...";
@@ -117,6 +127,7 @@ public class Nota {
                 }
             }
         }
+
         if (services.size() > 2 && output.equals("") && !services.get(1).isDone()) {
             output = "Sedang mengantar...";
             if(!isDone){
@@ -146,10 +157,12 @@ public class Nota {
         int date = Integer.parseInt(tanggalMasuk.substring(0, 2));
         cal.set(year, month, date);
         cal.add(Calendar.DATE, getHariPaket(paket));
-        long kompensasi, beda = 0;
+        long kompensasi;
+        long beda = 0;
 
         try{
-            Date dateExpectSelesai = NotaManager.fmt.parse(formatter.format(cal.getTime())); Date dateSelesai;
+            Date dateExpectSelesai = NotaManager.fmt.parse(formatter.format(cal.getTime()));
+            Date dateSelesai;
             if(tanggalSelesai.equals("")){
                 dateSelesai = NotaManager.fmt.parse(formatter.format(NotaManager.cal.getTime()));
             }else{
@@ -166,27 +179,28 @@ public class Nota {
             kompensasi = 0;
         }
 
-        String output = "[ID Nota = " + id + "]\n" + 
-        "ID     : " + member.getId() + "\n" + 
-        "Paket  : " + paket + "\n" + 
-        "Harga  :\n" + 
-        berat + " kg x " + baseHarga + " = " + (baseHarga * berat) + "\n" + 
-        "tanggal terima  : " + tanggalMasuk + "\n" + 
-        "tanggal selesai : " + formatter.format(cal.getTime()) + "\n" + 
-        "--- SERVICE LIST ---\n" + 
-        "-Cuci @ Rp." + services.get(0).getHarga(berat) + "\n";
+        String output = "[ID Nota = " + id + "]\n";
+        output += "ID     : " + member.getId() + "\n";
+        output += "Paket  : " + paket + "\n";
+        output += "Harga  :\n";
+        output += berat + " kg x " + baseHarga + " = " + (baseHarga * berat) + "\n";
+        output += "tanggal terima  : " + tanggalMasuk + "\n";
+        output += "Tanggal Selesai : " + formatter.format(cal.getTime()) + "\n";
+        output += "--- SERVICE LIST ---\n";
+        output += "Cuci @ Rp." + services.get(0).getHarga(berat) + "\n";
 
         if (services.size() > 1) {
             if (services.get(1) instanceof SetrikaService) {
-                output += "-Setrika @ Rp." + services.get(1).getHarga(berat) + "\n";
+                output += "Setrika @ Rp." + services.get(1).getHarga(berat) + "\n";
             } else {
-                output += "-Antar @ Rp." + services.get(1).getHarga(berat) + "\n";
+                output += "Antar @ Rp." + services.get(1).getHarga(berat) + "\n";
             }
         }
 
         if (services.size() > 2) {
-            output += "-Antar @ Rp." + services.get(2).getHarga(berat) + "\n";
+            output += "Antar @ Rp." + services.get(2).getHarga(berat) + "\n";
         }
+
         output += "Harga Akhir: ";
 
         //Kompensasi apabila ada keterlambatan pengerjaan. Jika kompensasi > harga akhir setelah pemotongan, akan mereturn nilai 0 (gratis)
@@ -203,6 +217,7 @@ public class Nota {
     }
 
     // Dibawah ini adalah getter
+
     public String getPaket() {
         return paket;
     }
