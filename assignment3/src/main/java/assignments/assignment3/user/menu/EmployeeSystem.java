@@ -63,12 +63,7 @@ public class EmployeeSystem extends SystemCLI {
             System.out.println("Belum ada nota di dalam sistem!");
         } else {
             for (int i = 0; i < notaList.size(); i++) {
-                System.out.print("Nota " + i + " : ");
-                if (notaList.get(i).isDone()) {
-                    System.out.println("Sudah selesai.");
-                } else {
-                    System.out.println("Belum selesai.");
-                }
+                System.out.println("Nota " + i + " : " + notaList.get(i).getNotaStatus());
             }
         }
     }

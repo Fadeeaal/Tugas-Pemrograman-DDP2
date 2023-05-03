@@ -105,46 +105,10 @@ public class Nota {
 
     //Mengembalikan pesan nota
     public String getNotaStatus() {
-        String output = "";
-
         if (isDone){
-            output = "Sudah selesai.";
+            return "Sudah selesai.";
         }
-
-        if (sisaHariPengerjaan > 0) {
-            output = "Sedang mencuci...";
-        }
-
-        //Jika service tambahan > 1, maka akan memeriksa service tambahannya
-        if (services.size() > 1) {
-            if (services.get(1) instanceof SetrikaService && !services.get(1).isDone() && output.equals("")) {
-                output = "Sedang menyetrika...";
-            } else if (services.get(1) instanceof AntarService && !services.get(1).isDone() && output.equals("")) {
-                output = "Sedang mengantar...";
-                if(!isDone){
-                    isDone = true;
-                    tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
-                }
-            }
-        }
-
-        if (services.size() > 2 && output.equals("") && !services.get(1).isDone()) {
-            output = "Sedang mengantar...";
-            if(!isDone){
-                isDone = true;
-                tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
-            }
-        }
-
-        //Akan dipanggil jika pesanan sudah selesai
-        if (output.equals("")) {
-            output = "Sudah selesai.";
-            if(!isDone){
-                tanggalSelesai = NotaManager.fmt.format(NotaManager.cal.getTime());
-                isDone = true;
-            }
-        }
-        return output;
+        return "Belum selesai.";
     }
 
     //Akan dipanggil untuk mencetak format nota untuk member
