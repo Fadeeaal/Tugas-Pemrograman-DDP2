@@ -35,6 +35,7 @@ public class EmployeeSystem extends SystemCLI {
             case 1 -> beginNyuci();
             case 2 -> displayNota();
             case 3 -> logout = true;
+            default -> System.out.println("Pilihan tidak valid!");
         }
         return logout;
     }

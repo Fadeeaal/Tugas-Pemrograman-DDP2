@@ -127,9 +127,8 @@ public class Nota {
         try{
             Date dateExpectSelesai = NotaManager.fmt.parse(formatter.format(cal.getTime()));
             Date dateSelesai;
-            if(tanggalSelesai.equals("")){
-                dateSelesai = NotaManager.fmt.parse(formatter.format(NotaManager.cal.getTime()));
-            }else{
+            if(tanggalSelesai.equals("")) dateSelesai = NotaManager.fmt.parse(formatter.format(NotaManager.cal.getTime()));
+            else{
                 dateSelesai = NotaManager.fmt.parse(tanggalSelesai);
             }
 
@@ -151,28 +150,15 @@ public class Nota {
         output += "tanggal terima  : " + tanggalMasuk + "\n";
         output += "Tanggal Selesai : " + formatter.format(cal.getTime()) + "\n";
         output += "--- SERVICE LIST ---\n";
-        output += "Cuci @ Rp." + services.get(0).getHarga(berat) + "\n";
-
-        if (services.size() > 1) {
-            if (services.get(1) instanceof SetrikaService) {
-                output += "Setrika @ Rp." + services.get(1).getHarga(berat) + "\n";
-            } else {
-                output += "Antar @ Rp." + services.get(1).getHarga(berat) + "\n";
-            }
+        for (LaundryService service : services){
+            output += "-" + service.getServiceName() + " @ Rp." + service.getHarga(berat) + "\n";
         }
-
-        if (services.size() > 2) {
-            output += "Antar @ Rp." + services.get(2).getHarga(berat) + "\n";
-        }
-
         output += "Harga Akhir: ";
 
         //Kompensasi apabila ada keterlambatan pengerjaan. Jika kompensasi > harga akhir setelah pemotongan, akan mereturn nilai 0 (gratis)
         if(kompensasi > 0){
             finalHarga = calculateHarga() - kompensasi;
-            if (finalHarga < 0){
-                finalHarga = 0;
-                }
+            if (finalHarga < 0) finalHarga = 0;
             output += finalHarga + " Ada kompensasi keterlambatan " + beda + " * 2000 hari\n";
         }else{
             output += calculateHarga() + "\n";

@@ -24,6 +24,7 @@ public class MemberSystem extends SystemCLI {
             case 1 -> wantToLaundry();
             case 2 -> displayNota();
             case 3 -> logout = true;
+            default -> System.out.println("Pilihan tidak valid!");
         }
         return logout;
     }
