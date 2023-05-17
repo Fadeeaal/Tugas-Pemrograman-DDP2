@@ -1,28 +1,21 @@
 package assignments.assignment3.nota.service;
 
-public class SetrikaService implements LaundryService {
-    private boolean isWorked = false;
-
+public class SetrikaService implements LaundryService{
+    private boolean isDone = false;
     @Override
-    //Method untuk melakukan pekerjaan (menyetrika)
     public String doWork() {
-        if (isWorked == true) {
-            return "Sudah selesai.";
-        }
-        isWorked = true;
+        isDone = true;
         return "Sedang menyetrika...";
     }
 
-    //Method untuk tanda apakah sudah selesai
     @Override
     public boolean isDone() {
-        return isWorked;
+        return isDone;
     }
 
-    //Method untuk menghitung harga di list service tambahan (biaya tambahan untuk menyetrika)
     @Override
     public long getHarga(int berat) {
-        return berat * 1000;
+        return 1000L * berat;
     }
 
     @Override

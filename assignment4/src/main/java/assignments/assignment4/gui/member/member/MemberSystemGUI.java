@@ -35,7 +35,10 @@ public class MemberSystemGUI extends AbstractMemberGUI {
     @Override
     protected JButton[] createButtons() {
         // TODO
+        JButton laundryButton = new JButton("Saya ingin laundry");
+        JButton checkNotaButton = new JButton("Lihat detail nota saya");
         return new JButton[]{
+            laundryButton, checkNotaButton
         };
     }
 
@@ -54,19 +57,37 @@ public class MemberSystemGUI extends AbstractMemberGUI {
     }
 
     /**
-     * Menampilkan detail Nota milik loggedInMember.
-     * Akan dipanggil jika pengguna menekan button pertama pada createButtons
-     * */
-    private void showDetailNota() {
-        // TODO
-    }
-
-    /**
      * Pergi ke halaman CreateNotaGUI.
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      * */
     private void createNota() {
         // TODO
+        MainFrame.getInstance().navigateTo(CreateNotaGUI.KEY);
     }
 
+    /**
+     * Menampilkan detail Nota milik loggedInMember.
+     * Akan dipanggil jika pengguna menekan button pertama pada createButtons
+     * */
+    private void showDetailNota() {
+        // TODO
+        if (loggedInMember.getNotaList().length == 0){
+            JOptionPane.showMessageDialog(this, "Anda belum melakukan pemesanan apapun", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            String allNota = "";
+            for (Nota nota : loggedInMember.getNotaList()){
+                allNota += nota.toString() + "\n";
+            }
+            JTextArea detailNota = new JTextArea(allNota);
+            detailNota.setEditable(false);
+            detailNota.setLineWrap(true);
+            detailNota.setWrapStyleWord(true);
+
+            JScrollPane scrollAble = new JScrollPane(detailNota);
+            scrollAble.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scrollAble.setPreferredSize(new Dimension(300, 200));
+            JOptionPane.showMessageDialog(null, scrollAble, "Detail nota", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
 }

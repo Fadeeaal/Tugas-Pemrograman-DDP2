@@ -1,31 +1,27 @@
 package assignments.assignment3.nota;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class NotaManager {
     public static SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
     public static Calendar cal = Calendar.getInstance();
-    static public List<Nota> notaList = new ArrayList<>();
+    static public Nota[] notaList = new Nota[0];
 
-    /**
-     * Skips ke hari berikutnya dan update semua entri nota yang sesuai.
-     */
-    public static void toNextDay() {
-        cal.setTime(cal.getTime()); cal.add(Calendar.DATE, 1);
-        for (Nota nota : notaList) {
+    public static void toNextDay(){
+        cal.add(Calendar.DATE, 1);
+        for (Nota nota:
+             notaList) {
             nota.toNextDay();
         }
     }
 
-    /**
-     * Menambahkan nota baru ke NotaList.
-     *
-     * @param nota Nota object untuk ditambahkan.
-     */
-    public static void addNota(Nota nota) {
-        notaList.add(nota);
+    public static void addNota(Nota nota){
+        int n = notaList.length;
+        Nota[] newarr = new Nota[n + 1];
+        System.arraycopy(notaList, 0, newarr, 0, n);
+
+        newarr[n] = nota;
+        notaList = newarr;
     }
 }

@@ -15,11 +15,6 @@ public class MainMenu {
     private final Scanner in;
     private final LoginManager loginManager;
 
-    /**
-     * Entry point for the CuciCuci System application.
-     *
-     * @param args command line arguments, bisa kalian ignore.
-     */
     public static void main(String[] args) {
         MainMenu mainMenu = new MainMenu(new Scanner(System.in), new LoginManager(new EmployeeSystem(), new MemberSystem()));
         mainMenu.run();
@@ -30,9 +25,6 @@ public class MainMenu {
         this.loginManager = loginManager;
     }
 
-    /**
-     * Menjalankan main menu.
-     */
     public void run() {
         boolean exit = false;
         while (!exit) {
@@ -47,20 +39,15 @@ public class MainMenu {
                 default -> System.out.println("Pilihan tidak valid, silakan coba lagi.");
             }
         }
+
         in.close();
     }
 
-    /**
-     * Skips ke hari selanjutnya dan mengupdate sistem.
-     */
     private void toNextDay() {
         System.out.println("Kamu tidur hari ini... zzz...");
         NotaManager.toNextDay();
     }
 
-    /**
-     * Mendaftarkan user pada sistem.
-     */
     void register() {
         System.out.println("Masukan nama Anda: ");
         String nama = in.nextLine();
@@ -70,32 +57,28 @@ public class MainMenu {
         String password = in.nextLine();
 
         Member registeredMember = loginManager.register(nama, noHp, password);
-        if (registeredMember == null) {
-            System.out.printf("User dengan nama %s dan nomor hp %s sudah ada!\n\n", nama, noHp);
+        if(registeredMember == null){
+            System.out.printf("User dengan nama %s dan nomor hp %s sudah ada!\n", nama, noHp);
             return;
         }
-        System.out.printf("Berhasil membuat user dengan ID %s!\n\n", registeredMember.getId());
+        System.out.printf("Berhasil membuat user dengan ID %s!\n", registeredMember.getId());
     }
 
-    /**
-     * Meminta user untuk login dan memulai SystemCLI yang sesuai.
-     */
     private void login() {
         System.out.print("Masukan ID Anda: ");
         String inputId = in.nextLine();
         System.out.print("Masukan password Anda: ");
         String inputPassword = in.nextLine();
         SystemCLI systemCLI = loginManager.getSystem(inputId);
-        if (systemCLI == null) {
-            System.out.println("ID atau password invalid.\n");
+        if(systemCLI == null){
+            System.out.println("ID atau password invalid.");
             return;
         }
         systemCLI.login(in, inputId, inputPassword);
     }
 
-    /**
-     * Menampilkan menu
-     */
+
+
     private void displayMenu() {
         System.out.println("Selamat datang di CuciCuci System!");
         System.out.printf("Sekarang tanggal %s\n", fmt.format(cal.getTime()));
@@ -105,4 +88,5 @@ public class MainMenu {
         System.out.println("4. Exit");
         System.out.print("Apa yang ingin Anda lakukan hari ini? ");
     }
+
 }

@@ -133,7 +133,7 @@ public class NotaGenerator {
         return -1;
     }
 
-    private static boolean isNumeric(String str) {
+    public static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c))
                 return false;
