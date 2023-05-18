@@ -45,62 +45,65 @@ public class CreateNotaGUI extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Padding untuk komponen
-        
+    
         // Paket Laundry
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.LINE_START; 
+        gbc.anchor = GridBagConstraints.LINE_START;
         add(paketLabel, gbc);
-        
+    
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START; 
+        gbc.anchor = GridBagConstraints.LINE_START;
         add(paketComboBox, gbc);
-        
+    
         gbc.gridx = 2;
         gbc.anchor = GridBagConstraints.LINE_START;
         showPaketButton.addActionListener(e -> showPaket());
         add(showPaketButton, gbc);
-        
+    
         // Berat Cucian
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.LINE_END;
         add(beratLabel, gbc);
-        
+    
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.LINE_START;
         add(beratTextField, gbc);
-        
+    
         // Tambah Setrika Service
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.LINE_START; 
+        gbc.anchor = GridBagConstraints.LINE_START;
         add(setrikaCheckBox, gbc);
-        
+    
         // Tambah Antar Service
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2; // Menggunakan 2 kolom
         gbc.anchor = GridBagConstraints.LINE_START; // Rata kiri
         add(antarCheckBox, gbc);
-        
+    
         // Tombol Buat Nota
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 4;
-        gbc.gridwidth = 2; // Menggunakan 1 kolom
+        gbc.gridwidth = 3; // Menggunakan 2 kolom
         gbc.anchor = GridBagConstraints.CENTER; // Tengah
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Memanjangkan secara horizontal
         createNotaButton.addActionListener(e -> createNota());
         add(createNotaButton, gbc);
-        
+    
         // Tombol Kembali
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 5;
-        gbc.gridwidth = 2; // Menggunakan 1 kolom
+        gbc.gridwidth = 3; // Menggunakan 2 kolom
         gbc.anchor = GridBagConstraints.CENTER; // Tengah
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Memanjangkan secara horizontal
         backButton.addActionListener(e -> handleBack());
         add(backButton, gbc);
-    }
+    }    
+    
 
     /**
      * Menampilkan list paket pada user.
