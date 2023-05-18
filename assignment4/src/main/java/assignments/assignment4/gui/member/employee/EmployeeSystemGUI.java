@@ -25,13 +25,11 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
 
     /**
      * Method ini mensupply buttons yang sesuai dengan requirements Employee.
-     * Button yang disediakan method ini BELUM memiliki ActionListener.
-     *
+     * Button yang disediakan method ini belum memiliki ActionListener.
      * @return Array of JButton, berisi button yang sudah stylize namun belum ada ActionListener.
      * */
     @Override
     protected JButton[] createButtons() {
-        // TODO
         JButton nyuciButton = new JButton("It's nyuci time");
         JButton checkButton = new JButton("Display List Nota");
         return new JButton[]{
@@ -42,7 +40,6 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
     /**
      * Method ini mensupply ActionListener korespondensi dengan button yang dibuat createButtons()
      * sesuai dengan requirements MemberSystem.
-     *
      * @return Array of ActionListener.
      * */
     @Override
@@ -56,20 +53,21 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
     /**
      * Menampilkan dan melakukan action mencuci.
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
-     * */
+     **/
     private void cuci() {
-        // TODO
-        if (NotaManager.notaList.length == 0){
-            JOptionPane.showMessageDialog(this, "Belum ada pesanan apapun :(", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Stand back! " + loggedInMember.getNama() + " beginning to nyuci!",
+                                    "Employee on the duty!", JOptionPane.INFORMATION_MESSAGE);
+
+        if (NotaManager.notaList.length == 0){ //Jika belum ada nota sama sekali
+            JOptionPane.showMessageDialog(this, "Belum ada pesanan apapun :(",
+                                     "Tidak ada pesanan", JOptionPane.INFORMATION_MESSAGE);
         }
-        else{
+        else{ //Sudah ada nota yang didaftarkan
             String doAllNota = "";
             for (Nota nota : NotaManager.notaList){
                 doAllNota += nota.kerjakan() + "\n";
             }
-            JOptionPane.showMessageDialog(null, "Stand back! " + loggedInMember.getNama() + " beginning to nyuci!",
-                                                    "Employee on the duty!", JOptionPane.INFORMATION_MESSAGE);
-            JTextArea detailNota = new JTextArea(doAllNota);
+            JTextArea detailNota = new JTextArea(doAllNota);    //Membuat text Area dan scroll pane
             detailNota.setEditable(false);
             detailNota.setLineWrap(true);
             detailNota.setWrapStyleWord(true);
@@ -84,10 +82,9 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
     /**
      * Menampilkan semua Nota yang ada pada sistem.
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
-     * */
+     **/
     private void displayNota() {
-        // TODO
-        if (NotaManager.notaList.length == 0){
+        if (NotaManager.notaList.length == 0){  //Jika belum ada nota sama sekali
             JOptionPane.showMessageDialog(this, "Belum ada pesanan apapun :(", "Tidak ada pesanan", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
@@ -95,7 +92,7 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
             for (Nota nota : NotaManager.notaList){
                 allNota += nota.getNotaStatus() + "\n";
             }
-            JTextArea detailNota = new JTextArea(allNota);
+            JTextArea detailNota = new JTextArea(allNota);  //Membuat text Area dan scroll pane
             detailNota.setEditable(false);
             detailNota.setLineWrap(true);
             detailNota.setWrapStyleWord(true);

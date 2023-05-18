@@ -29,23 +29,18 @@ public class CreateNotaGUI extends JPanel {
     private final Calendar cal;
     private final MemberSystemGUI memberSystemGUI;
 
-    String selectedPaket; 
-    int berat;
+    String selectedPaket; int berat;
 
     public CreateNotaGUI(MemberSystemGUI memberSystemGUI) {
         this.memberSystemGUI = memberSystemGUI;
         this.fmt = NotaManager.fmt;
         this.cal = NotaManager.cal;
 
-        // Set up main panel, Feel free to make any changes
+        // Set up main panel
         initGUI();
     }
 
-    /**
-     * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+    //Method untuk menginisialisasi GUI
     private void initGUI() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -54,33 +49,33 @@ public class CreateNotaGUI extends JPanel {
         // Paket Laundry
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.LINE_START; // Rata kiri
+        gbc.anchor = GridBagConstraints.LINE_START; 
         add(paketLabel, gbc);
         
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START; // Rata kiri
+        gbc.anchor = GridBagConstraints.LINE_START; 
         add(paketComboBox, gbc);
         
         gbc.gridx = 2;
-        gbc.anchor = GridBagConstraints.LINE_START; // Rata kiri
+        gbc.anchor = GridBagConstraints.LINE_START;
         showPaketButton.addActionListener(e -> showPaket());
         add(showPaketButton, gbc);
         
         // Berat Cucian
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.LINE_END; // Rata kanan
+        gbc.anchor = GridBagConstraints.LINE_END;
         add(beratLabel, gbc);
         
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START; // Rata kiri
+        gbc.anchor = GridBagConstraints.LINE_START;
         add(beratTextField, gbc);
         
         // Tambah Setrika Service
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = 2; // Menggunakan 2 kolom
-        gbc.anchor = GridBagConstraints.LINE_START; // Rata kiri
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.LINE_START; 
         add(setrikaCheckBox, gbc);
         
         // Tambah Antar Service
@@ -132,7 +127,6 @@ public class CreateNotaGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "createNotaButton"
      * */
     private void createNota() {
-        // TODO
         selectedPaket = paketComboBox.getSelectedItem().toString();
         while (true) {
             try {
@@ -179,7 +173,6 @@ public class CreateNotaGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "backButton"
      * */
     private void handleBack() {
-        // TODO
         clearAllFields();
         MainFrame.getInstance().navigateTo(MemberSystemGUI.KEY);
     }

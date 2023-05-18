@@ -40,19 +40,17 @@ public class MainFrame extends JFrame{
         setSize(700, 432);
         setVisible(true);
         loginablePanel = new Loginable[]{
-                employeeSystemGUI,
-                memberSystemGUI,
+                employeeSystemGUI, memberSystemGUI
         };
         initGUI();
         cards.show(mainPanel, HomeGUI.KEY);
         add(mainPanel);
+        setLocationRelativeTo(null);
     }
 
     /**
      * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+     **/
     private void initGUI() {
         mainPanel.add(homeGUI, HomeGUI.KEY);
         mainPanel.add(registerGUI, RegisterGUI.KEY);
@@ -65,9 +63,8 @@ public class MainFrame extends JFrame{
     /**
      * Method untuk mendapatkan instance MainFrame.
      * Instance Class MainFrame harus diambil melalui method ini agar menjamin hanya terdapat satu Frame pada program.
-     *
      * @return instance dari class MainFrame
-     * */
+     **/
     public static MainFrame getInstance(){
         if (instance == null) {
             instance = new MainFrame();
@@ -77,27 +74,22 @@ public class MainFrame extends JFrame{
 
     /**
      * Method untuk pergi ke panel sesuai dengan yang diberikan pada param.
-     *
      * @param page -> key dari halaman yang diinginkan.
-     * */
+     **/
     public void navigateTo(String page){
-        // TODO
         cards.show(mainPanel, page);
     }
 
     /**
      * Method untuk login pada sistem.
-     * Jika gagal login akan mengembalikan boolean false dan jika berhasil login: <p>
-     * - return boolean true <p>
-     * - menampilkan halaman yang sesuai <p>
-     *
+     * Jika gagal login akan mengembalikan boolean false dan jika berhasil login akan return boolean true dan 
+     * menampilkan halaman yang sesuai
      * @param id -> ID dari pengguna
      * @param password -> password dari pengguna
      * @return boolean yang menandakan apakah login berhasil atau gagal.
-     * */
+     **/
     public boolean login(String id, String password){
         for (Loginable panel : loginablePanel) {
-            // TODO
             if (panel.login(id, password)){
                 navigateTo(panel.getPageName());
                 return true;
@@ -106,10 +98,9 @@ public class MainFrame extends JFrame{
         return false;
     }
 
-
     /**
      * Method untuk logout dari sistem, kemudian menampilkan halaman Home.
-     * */
+     **/
     public void logout(){
         for (Loginable panel : loginablePanel) {
             panel.logout();
@@ -119,9 +110,6 @@ public class MainFrame extends JFrame{
 
     public static void main(String[] args) {
         // menampilkan GUI kalian.
-        // Jika ingin tau lebih lanjut mengapa menggunakan SwingUtilities.invokeLater
-        // silakan akses https://stackoverflow.com/questions/6567870/what-does-swingutilities-invokelater-do
-        // Tapi in general kalian tidak usah terlalu overthinking line ini selain fungsi utamanya adalah menampilkan GUI
         SwingUtilities.invokeLater(MainFrame::getInstance);
     }
 }

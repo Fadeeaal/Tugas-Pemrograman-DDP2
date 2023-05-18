@@ -28,13 +28,11 @@ public class MemberSystemGUI extends AbstractMemberGUI {
 
     /**
      * Method ini mensupply buttons yang sesuai dengan requirements MemberSystem.
-     * Button yang disediakan method ini BELUM memiliki ActionListener.
-     *
+     * Button yang disediakan method ini belum memiliki ActionListener.
      * @return Array of JButton, berisi button yang sudah stylize namun belum ada ActionListener.
-     * */
+     **/
     @Override
     protected JButton[] createButtons() {
-        // TODO
         JButton laundryButton = new JButton("Saya ingin laundry");
         JButton checkNotaButton = new JButton("Lihat detail nota saya");
         return new JButton[]{
@@ -45,9 +43,8 @@ public class MemberSystemGUI extends AbstractMemberGUI {
     /**
      * Method ini mensupply ActionListener korespondensi dengan button yang dibuat createButtons()
      * sesuai dengan requirements MemberSystem.
-     *
      * @return Array of ActionListener.
-     * */
+     **/
     @Override
     protected ActionListener[] createActionListeners() {
         return new ActionListener[]{
@@ -59,20 +56,19 @@ public class MemberSystemGUI extends AbstractMemberGUI {
     /**
      * Pergi ke halaman CreateNotaGUI.
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
-     * */
+     **/
     private void createNota() {
-        // TODO
         MainFrame.getInstance().navigateTo(CreateNotaGUI.KEY);
     }
 
     /**
      * Menampilkan detail Nota milik loggedInMember.
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
-     * */
+     **/
     private void showDetailNota() {
-        // TODO
         if (loggedInMember.getNotaList().length == 0){
-            JOptionPane.showMessageDialog(this, "Anda belum melakukan pemesanan apapun", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Anda belum melakukan pemesanan apapun", 
+                                        "Tidak ada pesanan", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             String allNota = "";

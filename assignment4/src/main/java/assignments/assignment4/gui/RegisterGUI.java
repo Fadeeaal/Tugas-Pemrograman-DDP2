@@ -6,79 +6,91 @@ import assignments.assignment4.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RegisterGUI extends JPanel {
     public static final String KEY = "REGISTER";
     private JPanel mainPanel;
-    private JLabel nameLabel = new JLabel("Masukkan nama Anda:");
+    private JLabel welcomeLabel = new JLabel("Halo, silahkan daftarkan akun kalian ^^");
+    private JLabel nameLabel = new JLabel("Nama lengkap");
     private JTextField nameTextField = new JTextField(20);
-    private JLabel phoneLabel = new JLabel("Masukkan nomor handphone Anda:");
+    private JLabel phoneLabel = new JLabel("Nomor handphone");
     private JTextField phoneTextField = new JTextField(20);
-    private JLabel passwordLabel =  new JLabel("Masukkan password Anda:");
+    private JLabel passwordLabel =  new JLabel("Password");
     private JPasswordField passwordField = new JPasswordField(20);
-    private JButton registerButton = new JButton("Register");
-    private JButton backButton = new JButton("Back");
-    private JCheckBox checkPass = new JCheckBox("Show password");
+    private JButton registerButton = new JButton("Daftar");
+    private JButton backButton = new JButton("Kembali");
+    private JCheckBox checkPass = new JCheckBox("Tampilkan password");
+    private JLabel registerLabel = new JLabel("<html><u><font color='blue' size='2'>Sudah punya akun? Masuk</font></u></html>");
     private LoginManager loginManager;
 
     public RegisterGUI(LoginManager loginManager) {
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        super(new BorderLayout()); // Setup layout
         this.loginManager = loginManager;
 
-        // Set up main panel, Feel free to make any changes
+        // Set up main panel
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         initGUI();
-
         add(mainPanel, BorderLayout.CENTER);
     }
 
     /**
      * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+     **/
     private void initGUI() {
-        // TODO
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.LINE_START;
-    
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 5, 10); // Add right padding
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(0, 20, 40, 0); // Add bottom padding
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        // Create the label
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Set the font and size
+        mainPanel.add(welcomeLabel, gbc);
+
+        // Reset gridwidth
+        gbc.gridwidth = 1;
+
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 0, 5, 72); // Add right padding
         mainPanel.add(nameLabel, gbc);
     
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.insets = new Insets(0, 0, 5, 0); // Reset padding
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(nameTextField, gbc);
     
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 5, 10); // Add right padding
         mainPanel.add(phoneLabel, gbc);
     
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 5, 0); // Reset padding
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(phoneTextField, gbc);
     
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.insets = new Insets(0, 0, 5, 10); // Add right padding
         mainPanel.add(passwordLabel, gbc);
     
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.insets = new Insets(0, 0, 5, 0); // Reset padding
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(passwordField, gbc);
 
         gbc.gridx = 2;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.insets = new Insets(0, 10, 5, 0); // Add left padding
         gbc.fill = GridBagConstraints.NONE;
         checkPass.addActionListener(e -> {
@@ -104,55 +116,76 @@ public class RegisterGUI extends JPanel {
         backButton.setPreferredSize(new Dimension(buttonWidth, 25)); // Set button size
         backButton.addActionListener(e -> handleBack());
         mainPanel.add(backButton, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.insets = new Insets(25, 0, 0, 0); // Add top padding
+        registerLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        registerLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleToLogin();
+            }
+        });
+        mainPanel.add(registerLabel, gbc);
     }
 
     /**
-     * Method untuk kembali ke halaman home.
-     * Akan dipanggil jika pengguna menekan "backButton"
-     * */
+     * Method untuk kembali ke halaman home yang akan dipanggil jika pengguna menekan "backButton"
+     **/
     private void handleBack() {
-        nameTextField.setText(""); phoneTextField.setText(""); passwordField.setText(""); checkPass.setSelected(false);
+        clearFields();
         MainFrame.getInstance().navigateTo(HomeGUI.KEY);
     }
 
     /**
-    * Method untuk mendaftarkan member pada sistem.
-    * Akan dipanggil jika pengguna menekan "registerButton"
-    * */
+    * Method untuk mendaftarkan member pada sistem dan akan dipanggil jika pengguna menekan "registerButton"
+    **/
     private void handleRegister() {
-        // TODO
         String nama = nameTextField.getText().trim();
         String noHp = phoneTextField.getText();
         String password = new String(passwordField.getPassword());
         Member registeredMember = loginManager.register(nama, noHp, password);
-        if (nama.isEmpty() || noHp.isEmpty() || password.isEmpty()){
+        if (nama.isEmpty() || noHp.isEmpty() || password.isEmpty()){ //Apabila semua field belum diisi
             JOptionPane.showMessageDialog(null, "Semua field harus diisi!", 
                                     "Invalid Field", JOptionPane.ERROR_MESSAGE);
         }
-        else if (!isNumeric(noHp)){
+        else if (!isNumeric(noHp)){ //Apabila no Hp tidak valid (ada karakter selain angka)
             JOptionPane.showMessageDialog(null, "Nomor Handphone harus berisi angka!", 
                                     "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
             phoneTextField.setText("");
         }
-        else if (registeredMember == null) {
+        else if (registeredMember == null) { //Apabila member sudah pernah terdaftar
             JOptionPane.showMessageDialog(null, "User dengan nama " + nama + " dan nomor hp " + noHp + " sudah ada!", 
                                     "Registration Failed", JOptionPane.ERROR_MESSAGE);
-            nameTextField.setText(""); phoneTextField.setText(""); passwordField.setText(""); checkPass.setSelected(false);
+            clearFields();
             MainFrame.getInstance().navigateTo(HomeGUI.KEY);
         } 
-        else {
+        else { //Apabila member belum terdaftar
             JOptionPane.showMessageDialog(null, "Berhasil membuat user dengan ID " + registeredMember.getId() + "!",
                                     "Registration Success", JOptionPane.INFORMATION_MESSAGE);
-            nameTextField.setText(""); phoneTextField.setText(""); passwordField.setText(""); checkPass.setSelected(false);
+            clearFields();
             MainFrame.getInstance().navigateTo(HomeGUI.KEY);;
         }        
     }
 
+    //Dipanggil untuk shortcut apabila ia ingin login melalui RegisterGUI
+    private void handleToLogin(){
+        clearFields();
+        MainFrame.getInstance().navigateTo(LoginGUI.KEY);
+    }
+
+    //Method yang dipanggil untuk mengecek no Hp
     private static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c))
                 return false;
         }
         return true;
+    }
+
+    //Method untuk membersihkan seluruh field
+    private void clearFields(){
+        nameTextField.setText(""); phoneTextField.setText(""); passwordField.setText(""); checkPass.setSelected(false);
     }
 }
