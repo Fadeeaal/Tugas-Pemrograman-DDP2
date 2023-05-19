@@ -31,9 +31,9 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
     @Override
     protected JButton[] createButtons() {
         JButton nyuciButton = new JButton("It's nyuci time");
-        JButton checkButton = new JButton("Display List Nota");
+        JButton checkNotaButton = new JButton("Display List Nota");
         return new JButton[]{
-            nyuciButton, checkButton
+            nyuciButton, checkNotaButton
         };
     }
 
