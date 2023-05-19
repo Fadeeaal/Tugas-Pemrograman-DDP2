@@ -173,6 +173,6 @@ public class LoginGUI extends JPanel {
 
     //Method untuk membersihkan seluruh field
     private void clearFields(){
-        idTextField.setText(""); passwordField.setText(""); checkPass.setSelected(false);
+        idTextField.setText(""); checkPass.setSelected(false); passwordField.setEchoChar('\u2022'); passwordField.setText("");
     }
 }

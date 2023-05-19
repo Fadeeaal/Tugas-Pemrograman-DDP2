@@ -186,6 +186,7 @@ public class RegisterGUI extends JPanel {
 
     //Method untuk membersihkan seluruh field
     private void clearFields(){
-        nameTextField.setText(""); phoneTextField.setText(""); passwordField.setText(""); checkPass.setSelected(false);
+        nameTextField.setText(""); phoneTextField.setText(""); checkPass.setSelected(false);
+        passwordField.setEchoChar('\u2022');passwordField.setText("");
     }
 }
